@@ -5,4 +5,10 @@ class Dog():
         print("dog initialized!")
 
     def bark(self):
-        print("Woof")
+        print("Woof!")
+
+    def sit(self):
+        print(f"{self.name} sits!")
+
+    def roll_over(self):
+        print(f"{self.name} rolls over!")
