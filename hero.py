@@ -1,6 +1,7 @@
 import random
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 
 
 class Hero():
@@ -12,12 +13,28 @@ class Hero():
         self.armors = list()
 
     def fight(self, opponent):
-        fighters = [self.name, opponent.name]
-        winner = random.choice(fighters)
-        print(f"{winner} won!")
+        if self.abilities == []:
+            print("Draw!")
+        else:
+            while self.current_health > 0 and opponent.current_health > 0:
+                hero_attack = self.attack()
+                opponent.take_damage(hero_attack)
+                opponent.is_alive()
+                if opponent.current_health <= 0:
+                    print(f"{self.name} Won!")
+                    break
+                opponent_attack = opponent.attack()
+                self.take_damage(opponent_attack)
+                self.is_alive()
+                if self.current_health <= 0:
+                    print(f"{opponent.name} Won!")
+                    break
 
     def add_ability(self, ability):
         self.abilities.append(ability)
+
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
 
     def attack(self):
         total_damage = 0
@@ -50,8 +67,7 @@ class Hero():
 
 
 if __name__ == "__main__":
-    hero = Hero("Grace Hopper", 200)
-    hero.take_damage(150)
-    print(hero.is_alive())
-    hero.take_damage(15000)
-    print(hero.is_alive())
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
