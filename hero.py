@@ -11,6 +11,8 @@ class Hero():
         self.current_health = starting_health
         self.abilities = list()
         self.armors = list()
+        self.deaths = 0
+        self.kills = 0
 
     def fight(self, opponent):
         if self.abilities == []:
@@ -21,12 +23,16 @@ class Hero():
                 opponent.take_damage(hero_attack)
                 opponent.is_alive()
                 if opponent.current_health <= 0:
+                    self.add_kills(1)
+                    opponent.add_deaths(1)
                     print(f"{self.name} Won!")
                     break
                 opponent_attack = opponent.attack()
                 self.take_damage(opponent_attack)
                 self.is_alive()
                 if self.current_health <= 0:
+                    opponent.add_kills(1)
+                    self.add_deaths(1)
                     print(f"{opponent.name} Won!")
                     break
 
@@ -62,6 +68,12 @@ class Hero():
             return False
         else:
             return True
+
+    def add_kills(self, num_kills):
+        self.kills += num_kills
+
+    def add_deaths(self, num_deaths):
+        self.deaths += num_deaths
 
 # --------------------- BOTTOM ------------------------
 
