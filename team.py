@@ -42,11 +42,22 @@ class Team():
             # --------------------------------------------------------
             fighter_1 = random.choice(living_heroes)
             fighter_2 = random.choice(living_opponents)
-            fight = [fighter_1, fighter_2]
-            winner = random.choice(fight)
-            if winner == fighter_1:
-                print(f"The winner is {winner}!")
-                other_team.remove_hero(fighter_2)
-            else:
-                print(f"The winner is {winner}!")
-                self.remove_hero(fighter_1)
+            while fighter_1.current_health > 0 and fighter_2.current_health > 0:
+                fighter_1_attack = fighter_1.attack()
+                fighter_2.take_damage(fighter_1_attack)
+                fighter_2.is_alive()
+                if fighter_2.current_health <= 0:
+                    fighter_1.add_kills(1)
+                    fighter_2.add_deaths(1)
+                    print(f'{fighter_1.name} Won!')
+                    living_opponents.remove(fighter_2)
+                    break
+                fighter_2_attack = fighter_2.attack()
+                fighter_1.take_damage(fighter_2_attack)
+                fighter_1.is_alive()
+                if fighter_1.current_health <= 0:
+                    fighter_2.add_kills(1)
+                    fighter_1.add_deaths(1)
+                    print(f'{fighter_2.name} Won!')
+                    living_heroes.remove(fighter_1)
+                    break
