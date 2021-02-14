@@ -5,10 +5,10 @@ from hero import Hero
 from team import Team
 
 
-class Arena:
+class Arena():
     def __init__(self):
-        self.team_one = None
-        self.team_two = None
+        self.team_one = list()  # None wouldn't allow me to append my hero to self.teams
+        self.team_two = list()
 
     def create_ability(self):
         name = input("What is the ability name?")
@@ -33,13 +33,13 @@ class Arena:
             add_item = input(
                 "[1] Add ability \n[2] Add Weapon\n[3] Add Armor\n[4] Done Adding Items \n\nYour Choice:")
             if add_item == "1":
-                ability = hero.create_ability()
+                ability = self.create_ability()
                 hero.add_ability(ability)
             elif add_item == "2":
-                weapon = hero.create_weapon()
+                weapon = self.create_weapon()
                 hero.add_weapon(weapon)
             elif add_item == "3":
-                armor = hero.create_armor()
+                armor = self.create_armor()
                 hero.add_armor(armor)
         return hero
 
@@ -48,14 +48,16 @@ class Arena:
             input("How many members would you like on Team One?\n"))
         for i in range(numOfTeamMembers):
             hero = self.create_hero()
-            self.team_one.add_hero(hero)
+            # add_hero in team.py not working so replaced with append
+            self.team_one.append(hero)
 
     def build_team_two(self):
         numOfTeamMembers = int(
             input("How many members would you like on Team Two?\n"))
         for i in range(numOfTeamMembers):
             hero = self.create_hero()
-            self.team_two.add_hero(hero)
+            # add_hero in team.py not working so replaced with append
+            self.team_two.append(hero)
 
     def team_battle(self):
         self.team_one.attack(self.team_two)
@@ -93,3 +95,26 @@ class Arena:
         for hero in self.team_two.heroes:
             if hero.deaths == 0:
                 print("survived form " + self.team_two.name + ": " + hero.name)
+
+
+if __name__ == "__main__":
+    game_is_running = True
+
+    arena = Arena()
+
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            # Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
