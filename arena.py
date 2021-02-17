@@ -115,6 +115,5 @@ if __name__ == "__main__":
             game_is_running = False
 
         else:
-            # Revive heroes to play again
             arena.team_one.revive_heroes()
             arena.team_two.revive_heroes()
